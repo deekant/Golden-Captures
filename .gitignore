@@ -1,0 +1,11 @@
+# Figma / design dev artifacts
+figma-*.json
+figma-reference.png
+design-tokens.md
+
+# OS
+.DS_Store
+
+# Secrets — never commit tokens
+.env
+*.token

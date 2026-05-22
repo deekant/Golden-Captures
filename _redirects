@@ -1,0 +1,5 @@
+# Netlify / Cloudflare Pages style redirects — configure on your host if different
+/services-2 / 301
+/magic-mirror / 301
+/wedding-party-booth / 301
+/4k-360-photo-booth-rental-copy / 301
