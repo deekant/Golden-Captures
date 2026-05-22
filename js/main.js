@@ -111,23 +111,15 @@
     var dragThreshold = 40;
     var galleryDesktopMq = window.matchMedia("(min-width: 62rem)");
     var galleryWasDesktop = galleryDesktopMq.matches;
+    var galleryLayout = {
+      viewportWidth: 0,
+      gap: 0,
+      slideWidths: [],
+      translateByIndex: []
+    };
 
     function isGalleryDesktop() {
       return galleryDesktopMq.matches;
-    }
-
-    function getTrackGap() {
-      if (!track) return 0;
-      return parseFloat(getComputedStyle(track).gap) || 0;
-    }
-
-    function getSlideOffsetLeft(index) {
-      var offset = 0;
-      var gap = getTrackGap();
-      for (var i = 0; i < index; i++) {
-        offset += slides[i].offsetWidth + gap;
-      }
-      return offset;
     }
 
     function getLogicalSlideCount() {
@@ -138,25 +130,54 @@
       return getLogicalSlideCount() - 1;
     }
 
+    function measureGalleryLayout() {
+      if (!viewport || !track) return;
+      galleryLayout.viewportWidth = viewport.offsetWidth;
+      galleryLayout.gap = parseFloat(getComputedStyle(track).gap) || 0;
+      galleryLayout.slideWidths = [];
+      for (var i = 0; i < slides.length; i++) {
+        galleryLayout.slideWidths[i] = slides[i].offsetWidth;
+      }
+      galleryLayout.translateByIndex = [];
+      for (var j = 0, max = getMaxIndex(); j <= max; j++) {
+        galleryLayout.translateByIndex[j] = computeCenteredTranslate(j);
+      }
+    }
+
+    function getSlideOffsetLeft(index) {
+      var offset = 0;
+      for (var i = 0; i < index; i++) {
+        offset += galleryLayout.slideWidths[i] + galleryLayout.gap;
+      }
+      return offset;
+    }
+
     function getGroupWidth(logicalIndex) {
       if (!isGalleryDesktop()) {
-        return slides[logicalIndex] ? slides[logicalIndex].offsetWidth : 0;
+        return galleryLayout.slideWidths[logicalIndex] || 0;
       }
       var first = logicalIndex * 2;
       var second = first + 1;
-      if (!slides[first]) return 0;
-      var gap = getTrackGap();
-      var width = slides[first].offsetWidth;
-      if (slides[second]) width += gap + slides[second].offsetWidth;
+      if (!galleryLayout.slideWidths[first]) return 0;
+      var width = galleryLayout.slideWidths[first];
+      if (galleryLayout.slideWidths[second]) {
+        width += galleryLayout.gap + galleryLayout.slideWidths[second];
+      }
       return width;
     }
 
-    function getCenteredTranslate(index) {
+    function computeCenteredTranslate(index) {
       if (!viewport) return 0;
       var offsetIndex = isGalleryDesktop() ? index * 2 : index;
-      var viewportWidth = viewport.offsetWidth;
       var groupWidth = getGroupWidth(index);
-      return (viewportWidth - groupWidth) / 2 - getSlideOffsetLeft(offsetIndex);
+      return (galleryLayout.viewportWidth - groupWidth) / 2 - getSlideOffsetLeft(offsetIndex);
+    }
+
+    function getCenteredTranslate(index) {
+      if (galleryLayout.translateByIndex[index] !== undefined) {
+        return galleryLayout.translateByIndex[index];
+      }
+      return computeCenteredTranslate(index);
     }
 
     function setTransform(index, offsetPx) {
@@ -178,16 +199,17 @@
     }
 
     function goToSlide(index) {
+      measureGalleryLayout();
       currentIndex = Math.max(0, Math.min(getMaxIndex(), index));
       setTransform(currentIndex, 0);
       updateDots();
     }
 
+    var dragBounds = { minX: 0, maxX: 0 };
+
     function clampTranslate(x) {
-      var minX = getCenteredTranslate(getMaxIndex());
-      var maxX = getCenteredTranslate(0);
-      if (x > maxX) return maxX + (x - maxX) * 0.35;
-      if (x < minX) return minX + (x - minX) * 0.35;
+      if (x > dragBounds.maxX) return dragBounds.maxX + (x - dragBounds.maxX) * 0.35;
+      if (x < dragBounds.minX) return dragBounds.minX + (x - dragBounds.minX) * 0.35;
       return x;
     }
 
@@ -222,9 +244,12 @@
 
       viewport.addEventListener("pointerdown", function (e) {
         if (e.button !== 0) return;
+        measureGalleryLayout();
         isDragging = true;
         dragStartX = e.clientX;
         dragStartTranslate = getCenteredTranslate(currentIndex);
+        dragBounds.maxX = getCenteredTranslate(0);
+        dragBounds.minX = getCenteredTranslate(getMaxIndex());
         dragDelta = 0;
         viewport.classList.add("is-dragging");
         viewport.setPointerCapture(e.pointerId);

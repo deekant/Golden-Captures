@@ -8,8 +8,10 @@
   <link rel="canonical" href="https://golden-captures.com/" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600&family=Playfair+Display:wght@400;600&family=Roboto:wght@400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600&family=Playfair+Display:wght@400;600&family=Roboto:wght@400;500&display=swap" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600&family=Playfair+Display:wght@400;600&family=Roboto:wght@400;500&display=swap" /></noscript>
+  <link rel="stylesheet" href="css/styles.css" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="css/styles.css" /></noscript>
 </head>
 <body>
   <div class="page-wrapper">
@@ -72,22 +74,26 @@
               <p class="hero_form-title">Get your custom quote</p>
             </div>
             <form class="quote-form" action="#" method="post" novalidate>
-              <label class="form_field">
-                <select name="package" required>
+              <label class="form_field" for="quote-package">
+                <span class="visually-hidden">Experience type</span>
+                <select id="quote-package" name="package" required>
                   <option value="">Experiences</option>
                   <option value="standard">Standard Photo Booth</option>
                   <option value="retro">Retro TV Photo Booth</option>
                   <option value="360">360 Photo Booth</option>
                 </select>
               </label>
-              <label class="form_field">
-                <input type="date" name="event_date" required aria-label="Event date" />
+              <label class="form_field" for="quote-event-date">
+                <span class="visually-hidden">Event date</span>
+                <input type="date" id="quote-event-date" name="event_date" required />
               </label>
-              <label class="form_field">
-                <input type="text" name="name" placeholder="Your name" autocomplete="name" required />
+              <label class="form_field" for="quote-name">
+                <span class="visually-hidden">Your name</span>
+                <input type="text" id="quote-name" name="name" placeholder="Your name" autocomplete="name" required />
               </label>
-              <label class="form_field">
-                <input type="text" name="contact" placeholder="Email or phone" required />
+              <label class="form_field" for="quote-contact">
+                <span class="visually-hidden">Email or phone</span>
+                <input type="text" id="quote-contact" name="contact" placeholder="Email or phone" autocomplete="email" required />
               </label>
               <button type="submit" class="button is-form">GET MY $200 OFF</button>
               <p class="form_microcopy">No spam. No obligation.</p>
@@ -375,7 +381,7 @@
                   <div class="testimonial_author">
                     <img src="images/testimonials/deena-kareem.webp" alt="" width="72" height="72" loading="lazy" />
                     <div class="testimonial_author-info">
-                      <div class="testimonial_stars" aria-label="5 out of 5 stars">
+                      <div class="testimonial_stars" role="img" aria-label="5 out of 5 stars">
                         <img src="images/icons/star.svg" alt="" width="20" height="20" />
                         <img src="images/icons/star.svg" alt="" width="20" height="20" />
                         <img src="images/icons/star.svg" alt="" width="20" height="20" />
@@ -391,7 +397,7 @@
                   <div class="testimonial_author">
                     <img src="images/testimonials/abanoub-marline.webp" alt="" width="72" height="72" loading="lazy" />
                     <div class="testimonial_author-info">
-                      <div class="testimonial_stars" aria-label="5 out of 5 stars">
+                      <div class="testimonial_stars" role="img" aria-label="5 out of 5 stars">
                         <img src="images/icons/star.svg" alt="" width="20" height="20" />
                         <img src="images/icons/star.svg" alt="" width="20" height="20" />
                         <img src="images/icons/star.svg" alt="" width="20" height="20" />
