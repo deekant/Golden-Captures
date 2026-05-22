@@ -9,6 +9,7 @@
   --dark-elevated: #2a231f;
   --gold: #caa86e;
   --gold-dark: #b89559;
+  --gold-on-light: #7a5f32; /* AA on cream (~5.2:1); use for text, not UI chrome */
   --text: #1a1614;
   --text-muted: #4a413a;
   --text-soft: #6b5f54;
@@ -141,7 +142,10 @@ button, input, select { font: inherit; margin: 0; }
 .text-style-lede.is-on-dark { color: var(--cream-muted); }
 
 .text-color-gold { color: var(--gold); font-style: normal; }
-.text-color-gold-dark { color: var(--gold-dark); font-style: normal; }
+.heading-style-h2:not(.is-on-dark) .text-color-gold {
+  color: var(--gold-on-light);
+}
+.text-color-gold-dark { color: var(--gold-on-light); font-style: normal; }
 
 .background-color-dark { background: var(--dark); }
 
@@ -785,7 +789,7 @@ button, input, select { font: inherit; margin: 0; }
   font-size: 0.8125rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--gold-dark);
+  color: var(--gold-on-light);
   margin: 0 0 0.5rem;
 }
 .pricing_card-title {
@@ -1349,7 +1353,7 @@ button, input, select { font: inherit; margin: 0; }
   transition: color 0.2s ease, opacity 0.2s ease;
 }
 .footer_social-link:hover {
-  color: var(--gold-dark);
+  color: var(--gold);
   opacity: 0.85;
 }
 .footer_social-link svg {
