@@ -829,7 +829,7 @@ button, input, select { font: inherit; margin: 0; }
   font-size: 1.5rem;
   text-transform: uppercase;
   text-decoration: line-through;
-  color: var(--text-tertiary);
+  color: var(--text-soft);
   line-height: 1.2;
 }
 .pricing_save-badge {
