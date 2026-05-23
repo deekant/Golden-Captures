@@ -497,35 +497,12 @@ button, input, select { font: inherit; margin: 0; }
   border: 0;
 }
 
-.quote-form { display: flex; flex-direction: column; gap: 1.25rem; }
-.hero_form-card .quote-form > .button.is-form + .form_microcopy {
-  margin-top: -0.75rem;
-}
-.form_field input,
-.form_field select {
+.hero_honeybook {
   width: 100%;
-  min-height: 3rem;
-  padding: 0.75rem 0;
-  font-family: var(--font-body);
-  font-size: 0.875rem;
-  color: var(--text);
-  background: transparent;
-  border: none;
-  border-bottom: 1px solid rgba(26, 22, 20, 0.15);
-  border-radius: 0;
+  min-height: 12rem;
 }
-.form_microcopy {
-  font-size: 0.8125rem;
-  text-align: center;
-  color: var(--text-muted);
-  margin: 0;
-}
-.form_success {
-  text-align: center;
-  padding: 0.75rem;
-  background: rgba(202, 168, 110, 0.15);
-  border-radius: var(--radius);
-  color: var(--text);
+.hero_honeybook .hb-p-69bdb71e3f88dd00293079dd-2 {
+  width: 100%;
 }
 
 /* Trust strip (Frame 13) */

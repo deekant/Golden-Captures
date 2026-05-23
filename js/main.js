@@ -20,15 +20,6 @@
     });
   }
 
-  document.querySelectorAll(".quote-form").forEach(function (form) {
-    form.addEventListener("submit", function (e) {
-      e.preventDefault();
-      var success = form.querySelector(".form_success");
-      if (success) success.classList.remove("hide");
-      form.reset();
-    });
-  });
-
   var mobileCta = document.getElementById("mobile-cta");
   var heroSection = document.querySelector(".section_header-hero");
   var mobileCtaMq = window.matchMedia("(max-width: 61.99rem)");
