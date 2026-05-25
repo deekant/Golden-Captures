@@ -1387,14 +1387,23 @@ h1.heading-style-h1 {
   right: 0;
   z-index: 90;
   padding: 0.5rem;
+  padding-bottom: max(0.5rem, env(safe-area-inset-bottom, 0px));
   background: var(--dark);
   border-top: 1px solid rgba(202, 168, 110, 0.3);
+  box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.35);
 }
-.mobile-cta_component .button { width: 100%; border-radius: var(--radius); }
+.mobile-cta_component .button {
+  width: 100%;
+  border-radius: var(--radius);
+  font-size: 0.8125rem;
+}
 
 @media (max-width: 61.99rem) {
   .mobile-cta_component:not(.hide) {
     display: block;
+  }
+  body.has-mobile-cta {
+    padding-bottom: calc(4.25rem + env(safe-area-inset-bottom, 0px));
   }
 }
 
@@ -1567,6 +1576,8 @@ h1.heading-style-h1 {
 
 @media (max-width: 47.99rem) {
   :root { --pad-y: 4rem; --gap-section: 2.5rem; }
+  .section_compare { display: none; }
+  .navbar_link[href="#compare"] { display: none; }
   .testimonial_card { padding: 1.5rem; }
   .testimonial_quote { font-size: 1.25rem; }
 }

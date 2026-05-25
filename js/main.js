@@ -23,15 +23,38 @@
   var mobileCta = document.getElementById("mobile-cta");
   var heroSection = document.querySelector(".section_header-hero");
   var mobileCtaMq = window.matchMedia("(max-width: 61.99rem)");
-  if (mobileCta && heroSection && mobileCtaMq.matches) {
-    new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        mobileCta.classList.toggle("hide", entry.isIntersecting);
+  if (mobileCta) {
+    var mobileCtaRaf = 0;
+    function updateMobileCtaVisibility() {
+      if (!mobileCtaMq.matches) {
+        mobileCta.classList.add("hide");
+        document.body.classList.remove("has-mobile-cta");
+        return;
+      }
+      if (!heroSection) {
+        mobileCta.classList.remove("hide");
+        document.body.classList.add("has-mobile-cta");
+        return;
+      }
+      var pastHero = heroSection.getBoundingClientRect().bottom <= 80;
+      mobileCta.classList.toggle("hide", !pastHero);
+      document.body.classList.toggle("has-mobile-cta", pastHero);
+    }
+    function scheduleMobileCtaUpdate() {
+      if (mobileCtaRaf) return;
+      mobileCtaRaf = requestAnimationFrame(function () {
+        mobileCtaRaf = 0;
+        updateMobileCtaVisibility();
       });
-    }, { threshold: 0 }).observe(heroSection);
-  }
-  if (mobileCta && !mobileCtaMq.matches) {
-    mobileCta.classList.add("hide");
+    }
+    updateMobileCtaVisibility();
+    window.addEventListener("scroll", scheduleMobileCtaUpdate, { passive: true });
+    window.addEventListener("resize", scheduleMobileCtaUpdate);
+    if (mobileCtaMq.addEventListener) {
+      mobileCtaMq.addEventListener("change", scheduleMobileCtaUpdate);
+    } else {
+      mobileCtaMq.addListener(scheduleMobileCtaUpdate);
+    }
   }
 
   var videoBlock = document.getElementById("testimonials-video-block");
