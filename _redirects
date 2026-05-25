@@ -1,4 +1,5 @@
 # Netlify / Cloudflare Pages style redirects — configure on your host if different
+/favicon.ico /images/favicon.png 200
 /services-2 / 301
 /magic-mirror / 301
 /wedding-party-booth / 301
