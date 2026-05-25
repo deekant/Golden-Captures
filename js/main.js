@@ -363,7 +363,20 @@
 
   var honeybookRoot = document.querySelector(".cta_honeybook");
   if (honeybookRoot) {
+    var honeybookPid = "69bdb71e3f88dd00293079dd";
     var honeybookIframeTitle = "Get your custom quote contact form";
+
+    if (!window.__gcHoneybookPlacementLoaded) {
+      window.__gcHoneybookPlacementLoaded = true;
+      window._HB_ = window._HB_ || {};
+      window._HB_.pid = honeybookPid;
+      var hbScript = document.createElement("script");
+      hbScript.async = true;
+      hbScript.src =
+        "https://widget.honeybook.com/assets_users_production/websiteplacements/placement-controller.min.js";
+      document.head.appendChild(hbScript);
+    }
+
     function titleHoneybookIframe(iframe) {
       if (!iframe.getAttribute("title")) {
         iframe.setAttribute("title", honeybookIframeTitle);
