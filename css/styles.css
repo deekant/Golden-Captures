@@ -1118,9 +1118,6 @@ h1.heading-style-h1 {
   .gallery_carousel {
     --gallery-cell-width: calc((var(--gallery-pair-width) - var(--gallery-slide-gap)) / 2);
   }
-  .gallery_dots .gallery_dot:nth-child(n + 4) {
-    display: none;
-  }
 }
 .gallery_item {
   margin: 0;
@@ -1134,9 +1131,13 @@ h1.heading-style-h1 {
 }
 .gallery_dots {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
-  gap: 1rem;
+  gap: 0.5rem 0.625rem;
   margin-top: 2rem;
+  max-width: min(var(--container), 100%);
+  margin-inline: auto;
+  padding-inline: 1.25rem;
 }
 .gallery_dot {
   width: 0.5rem;

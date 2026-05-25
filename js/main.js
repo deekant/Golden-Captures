@@ -129,7 +129,8 @@
   if (galleryCarousel) {
     var viewport = galleryCarousel.querySelector(".gallery_carousel-viewport");
     var track = galleryCarousel.querySelector(".gallery_carousel-track");
-    var dots = galleryCarousel.querySelectorAll(".gallery_dot");
+    var dotsContainer = galleryCarousel.querySelector(".gallery_dots");
+    var dots = [];
     var slides = galleryCarousel.querySelectorAll(".gallery_slide");
     var currentIndex = 0;
     var dragStartX = 0;
@@ -228,13 +229,33 @@
       track.style.transform = "translate3d(" + x + "px, 0, 0)";
     }
 
+    function rebuildGalleryDots() {
+      if (!dotsContainer) return;
+      dotsContainer.innerHTML = "";
+      var count = getLogicalSlideCount();
+      for (var i = 0; i < count; i++) {
+        var dot = document.createElement("button");
+        dot.type = "button";
+        dot.className = "gallery_dot";
+        dot.setAttribute("role", "tab");
+        dot.setAttribute("aria-selected", "false");
+        dot.setAttribute("aria-label", "Slide " + (i + 1));
+        dot.setAttribute("data-slide", String(i));
+        dot.addEventListener("click", function () {
+          var index = parseInt(this.getAttribute("data-slide"), 10);
+          if (!isNaN(index)) goToSlide(index);
+        });
+        dotsContainer.appendChild(dot);
+      }
+      dots = galleryCarousel.querySelectorAll(".gallery_dot");
+      updateDots();
+    }
+
     function updateDots() {
       dots.forEach(function (dot) {
         var dotIndex = parseInt(dot.getAttribute("data-slide"), 10);
         if (isNaN(dotIndex)) return;
-        var active = isGalleryDesktop()
-          ? dotIndex === currentIndex && dotIndex < getLogicalSlideCount()
-          : dotIndex === currentIndex;
+        var active = dotIndex === currentIndex;
         dot.classList.toggle("is-active", active);
         dot.setAttribute("aria-selected", active ? "true" : "false");
       });
@@ -285,15 +306,11 @@
           currentIndex = Math.min(currentIndex * 2, getMaxIndex());
         }
         galleryWasDesktop = nowDesktop;
+        rebuildGalleryDots();
         scheduleGalleryMeasure(true);
       });
 
-      dots.forEach(function (dot) {
-        dot.addEventListener("click", function () {
-          var index = parseInt(dot.getAttribute("data-slide"), 10);
-          if (!isNaN(index)) goToSlide(index);
-        });
-      });
+      rebuildGalleryDots();
 
       viewport.addEventListener("pointerdown", function (e) {
         if (e.button !== 0) return;
